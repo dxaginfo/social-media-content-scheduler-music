@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
+  backend:
+    build: ./backend
+    ports:
+      - '3001:3001'
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/socialmedia
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: socialmedia
+    ports:
+      - '5432:5432'
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+volumes:
+  dbdata:
